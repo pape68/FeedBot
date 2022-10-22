@@ -1,11 +1,9 @@
 from pyrogram import Client, filters, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-
 api_id = 1 #mettere api id
 api_hash = "" # metti il tuo api hash
 bot = "" #metti il tuo bot token
-
 
 client = Client("bot_session", api_id, api_hash, bot_token=bot)
 client.start()
@@ -27,8 +25,7 @@ async def avvio(_, message):
     else:
         await message.reply_text("Sei risultato Admin del bot, aspetta che il bot ti invia Le feed!\n developed by @paperego68")
 
-
-@client.on_callback_query()
+@client.on_callback_query() #Query messaggi 
 async def btn(_, query):
     if query.data == "inviafeed":
         if not query.from_user.id in check:
@@ -57,7 +54,7 @@ async def btn(_, query):
             [InlineKeyboardButton("✅ Mandami una Feed", "inviafeed"), [InlineKeyboardButton("Developer 💻", url="t.me/paperego68")]]
             ]))
 
-@client.on_message(filters.private)
+@client.on_message(filters.private) # check feed 
 async def feed(_, message):
     global check
     if message.from_user.id in check:
@@ -78,4 +75,4 @@ Assicurati di aver inviato precisamente ciò che ti è stato richiesto.""", repl
     ]))
         check.remove(message.from_user.id)
 
-idle()
+idle() # run bot telegram
