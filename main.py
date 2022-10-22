@@ -1,5 +1,5 @@
-from pyrogram import *
-from pyrogram.types import *
+from pyrogram import Client, filters, idle
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 api_id = 1 #mettere api id
@@ -35,9 +35,7 @@ async def btn(_, query):
             check.append(query.from_user.id)
             await query.message.edit("""
 <b><i><u>Hai acquistato e vuoi lasciare una recensione</u></i></b>❓
-
 <b>Scrivila qui sotto⬇️ seguendo uno di questo format:
-
 [1️⃣]  </b><code> +rep @paperego68 carring, voto, tempo</code>
 """, reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("✖️ Annulla", "stop")]
