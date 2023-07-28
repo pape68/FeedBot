@@ -1,17 +1,19 @@
 from pyrogram import Client, filters, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-api_id = 1 #mettere api id
-api_hash = "" # metti il tuo api hash
-bot = "" #metti il tuo bot token
+API_ID = None #mettere api id
+API_HASH = "" # metti il tuo api hash
+TOKEN = "" #metti il tuo bot token
 
-client = Client("bot_session", api_id, api_hash, bot_token=bot)
+client = Client("bot_session", API_ID, API_HASH, bot_token=TOKEN)
+
 client.start()
 print("STATUS BOT [ONLINE]")
 
 check = [] 
 
-text_find = "+rep @paperego68" #metti le parole che deve mettere per forza l'utente. 
+UserId = None
+text_find = "" #metti le parole che deve mettere per forza l'utente. 
 admin = [] # id admin nel quale riceve le feed... 
 canale_feed = [] # id canale delle feed 
 
@@ -42,26 +44,24 @@ async def btn(_, query):
     elif query.data == "stop":
         if query.from_user.id in check:
             check.remove(query.from_user.id)
-            await query.message.edit(f"""Benvenuto {query.message.from_user.mention} nel mio FeedBot, se vuoi inviarmi una feed usa il bottone sottostante!. 
-        Bot Creato da @paperego68""", reply_markup=InlineKeyboardMarkup([
+            await query.message.edit(f"Benvenuto {query.message.from_user.mention} nel mio FeedBot, se vuoi inviarmi una feed usa il bottone sottostante!.\nBot Creato da @paperego68", reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("✅ Mandami una Feed", "inviafeed"), [InlineKeyboardButton("Developer 💻", url="t.me/paperego68")]]
     ]))
         else:
             await query.answer("Avvia di nuovo il feed Bot", show_alert=False)
     elif query.data == "startcb":
-        await query.message.edit (f"""Benvenuto {query.message.from_user.mention} nel mio FeedBot, se vuoi inviarmi una feed usa il bottone sottostante!. 
-        Bot Creato da @paperego68""", reply_markup=InlineKeyboardMarkup([
+        await query.message.edit (f"Benvenuto {query.message.from_user.mention} nel mio FeedBot, se vuoi inviarmi una feed usa il bottone sottostante!\nBot Creato da @paperego68", reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("✅ Mandami una Feed", "inviafeed"), [InlineKeyboardButton("Developer 💻", url="t.me/paperego68")]]
-            ]))
+        ]))
 
 @client.on_message(filters.private) # check feed 
 async def feed(_, message):
     global check
     if message.from_user.id in check:
-        if not message.text.find(text_find):
-            await client.send_message(5732719854, f"Un Utente di nome {message.from_user.mention} Ha inviato una Feed!", reply_markup=InlineKeyboardMarkup([
+        if message.text.find(text_find):
+            await client.send_message(UserId, f"Un Utente di nome {message.from_user.mention} Ha inviato una Feed!", reply_markup=InlineKeyboardMarkup([
     ])) 
-            await message.forward(5732719854) #metti il tuo id
+            await message.forward(UserId)
             await message.reply_text("__**Feedback inoltrato con successo✅**__", reply_markup=InlineKeyboardMarkup([
         [InlineKeyboardButton("💻 Mandami una nuova Feed", "inviafeed")],
         [InlineKeyboardButton("⏪ Indietro", "startcb")]
